@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill App</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f9; padding: 10px; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #219150; }
+        #receipt { margin-top: 20px; padding: 15px; border: 1px dashed #7f8c8d; background: #fff; }
+        .print-btn { background: #3498db; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>PK ADVERTISMENT-HIRIWADUNNA</h2>
+    
+    <div class="input-group">
+        <label>සේවාව තෝරන්න (Service):</label>
+        <select id="service">
+            <option value="Photocopy">Photocopy</option>
+            <option value="Print Out">Print Out</option>
+            <option value="Reload">Reload</option>
+            <option value="Utility Bill">Utility Bill</option>
+			<option value="TYPE SETTING">Type setting</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>ඒකක මිල (Unit Price):</label>
+        <input type="number" id="price" placeholder="0.00">
+    </div>
+
+    <div class="input-group">
+        <label>ප්‍රමාණය (Qty):</label>
+        <input type="number" id="qty" value="1">
+    </div>
+
+    <button onclick="generateBill()">බිල්පත සාදන්න (Generate Bill)</button>
+
+    <div id="receipt" style="display:none;">
+        <h3 style="text-align:center;">නම: My Communication</h3>
+        <p id="bill-date"></p>
+        <hr>
+        <p><strong>සේවාව:</strong> <span id="res-service"></span></p>
+        <p><strong>ප්‍රමාණය:</strong> <span id="res-qty"></span></p>
+        <p><strong>මුළු මුදල:</strong> රු. <span id="res-total"></span></p>
+        <hr>
+        <p style="text-align:center;">ස්තූතියි! නැවත එන්න.</p>
+        <button class="print-btn" onclick="window.print()">Print / PDF සේව් කරන්න</button>
+    </div>
+</div>
+
+<script>
+    function generateBill() {
+        let service = document.getElementById('service').value;
+        let price = parseFloat(document.getElementById('price').value);
+        let qty = parseInt(document.getElementById('qty').value);
+        
+        if (isNaN(price) || price <= 0) {
+            alert("කරුණාකර නිවැරදි මිලක් ඇතුළත් කරන්න.");
+            return;
+        }
+
+        let total = price * qty;
+        
+        document.getElementById('res-service').innerText = service;
+        document.getElementById('res-qty').innerText = qty;
+        document.getElementById('res-total').innerText = total.toFixed(2);
+        document.getElementById('bill-date').innerText = "දිනය: " + new Date().toLocaleString();
+        
+        document.getElementById('receipt').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
